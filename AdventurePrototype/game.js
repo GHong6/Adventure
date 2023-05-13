@@ -693,13 +693,80 @@ class Intro extends Phaser.Scene {
     constructor() {
         super('intro')
     }
-    create() {
-        this.add.text(50,50, "Rooms").setFontSize(50);
-        this.add.text(50,100, "Click anywhere to begin.").setFontSize(20);
-        this.input.on('pointerdown', () => {
-            this.cameras.main.fade(1000, 0,0,0);
-            this.time.delayedCall(1000, () => this.scene.start('Room1'));
+
+    preload(){
+        this.load.path = "./assets/";
+        this.load.spritesheet('deltaStudio', 'logo.png', {
+            frameWidth: 825,
+            frameHeight: 638,
+            endFrame: 30
         });
+
+
+
+    }
+    create() {
+
+        
+
+        this.deltaStudio = this.add.sprite(960, 540, 'deltaStudio');
+                this.anims.create({
+                    key: 'deltaStudio',
+                    frames: this.anims.generateFrameNumbers('deltaStudio', { start: 0, end: 30 }),
+                    frameRate: 24,
+                    repeat: 0
+                });
+                this.deltaStudio.setScale(1);
+                
+                //this.deltaStudio.play('deltaStudio', true);
+                this.time.delayedCall(1000, () => {
+                    this.deltaStudio.play('deltaStudio', true);
+                });
+                this.time.delayedCall(2000, () => {
+                    let textObject = this.add.text(960,800, "Presents").setFontSize(100);
+                    textObject.setOrigin(0.5);
+                    textObject.alpha = 0;
+
+                    this.tweens.add({
+                        targets: textObject,
+                        alpha: 1,
+                        duration: 1000,
+                        ease: 'Linear'
+                      });
+                });
+
+                this.time.delayedCall(2900, () => {
+                    let textObject = this.add.text(960,900, "Rooms").setFontSize(100);
+                    textObject.setOrigin(0.5);
+                    textObject.alpha = 0;
+
+                    this.tweens.add({
+                        targets: textObject,
+                        alpha: 1,
+                        duration: 1000,
+                        ease: 'Linear'
+                      });
+                });
+
+                this.time.delayedCall(3600, () => {
+                    let textObject = this.add.text(960,1000, "Click anywhere to begin.").setFontSize(65);
+                    textObject.setOrigin(0.5);
+                    textObject.alpha = 0;
+
+                    this.tweens.add({
+                        targets: textObject,
+                        alpha: 1,
+                        duration: 1000,
+                        ease: 'Linear'
+                      });
+
+                      this.input.on('pointerdown', () => {
+                        this.cameras.main.fade(1000, 0,0,0);
+                        this.time.delayedCall(1000, () => this.scene.start('Room1'));
+                    });
+                });
+        
+
     }
 }
 
@@ -707,10 +774,44 @@ class Outro extends Phaser.Scene {
     constructor() {
         super('Outro');
     }
+
+    preload(){
+        this.load.path = "./assets/";
+        this.load.image('ouside', 'ouside.png');
+    }
+    
     create() {
-        this.add.text(50, 50, "You escaped the cursed building.").setFontSize(50);
-        this.add.text(50, 100, "Click anywhere to restart.").setFontSize(20);
-        this.input.on('pointerdown', () => this.scene.start('intro'));
+        const roombg = this.add.image(0, 0, 'ouside');
+        roombg.setOrigin(0);
+        roombg.setDepth(0);
+        roombg.setScale(4);
+
+        this.time.delayedCall(2900, () => {
+            let textObject = this.add.text(960,600, "You escaped the cursed building.").setFontSize(100);
+            textObject.setOrigin(0.5);
+            textObject.alpha = 0;
+
+            this.tweens.add({
+                targets: textObject,
+                alpha: 1,
+                duration: 1000,
+                ease: 'Linear'
+              });
+        });
+
+        this.time.delayedCall(2900, () => {
+            let textObject = this.add.text(960,700, "Click anywhere to restart.").setFontSize(100);
+            textObject.setOrigin(0.5);
+            textObject.alpha = 0;
+
+            this.tweens.add({
+                targets: textObject,
+                alpha: 1,
+                duration: 1000,
+                ease: 'Linear'
+              });
+              this.input.on('pointerdown', () => this.scene.start('intro'));
+        });
     }
 }
 
